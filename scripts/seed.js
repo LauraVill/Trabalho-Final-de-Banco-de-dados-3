@@ -1,6 +1,7 @@
 const { MongoClient, ObjectId } = require("mongodb");
 require("dotenv").config();
 
+// Conexão com o MongoDB usando a string definida no arquivo .env
 const client = new MongoClient(process.env.MONGO_URI);
 
 async function seed() {
@@ -9,11 +10,13 @@ async function seed() {
 
     const db = client.db(process.env.DB_NAME);
 
+    // Limpa as collections antes de popular novamente o banco
     await db.collection("filmes").deleteMany({});
     await db.collection("generos").deleteMany({});
     await db.collection("diretores").deleteMany({});
     await db.collection("avaliacoes").deleteMany({});
 
+    // Collection generos: 30 documentos
     const generos = [
       "Ação", "Comédia", "Drama", "Terror", "Romance",
       "Ficção Científica", "Animação", "Suspense", "Fantasia", "Documentário",
@@ -28,6 +31,7 @@ async function seed() {
       ativo: true
     }));
 
+    // Collection diretores: 30 documentos
     const diretores = [
       "Christopher Nolan", "Steven Spielberg", "Greta Gerwig", "James Cameron", "Quentin Tarantino",
       "Martin Scorsese", "Sofia Coppola", "Jordan Peele", "Denis Villeneuve", "Patty Jenkins",
@@ -43,6 +47,7 @@ async function seed() {
       ativo: true
     }));
 
+    // InsertMany: inserção em lote exigida pela atividade
     await db.collection("generos").insertMany(generos);
     await db.collection("diretores").insertMany(diretores);
 
@@ -57,6 +62,7 @@ async function seed() {
       "A Lenda do Vale", "O Último Herói"
     ];
 
+    // Collection filmes: 30 documentos
     const filmes = titulos.map((titulo, index) => ({
       _id: new ObjectId(),
       titulo,
@@ -67,7 +73,8 @@ async function seed() {
       temporadas: index % 3 === 0 ? Math.floor(index / 3) + 1 : null,
       ativo: true,
 
-      // Embedding: as plataformas ficam dentro do documento do filme
+      // EMBEDDING:
+      // Plataformas ficam dentro do próprio documento do filme
       plataformas: [
         {
           nome: index % 2 === 0 ? "Netflix" : "Prime Video",
@@ -79,27 +86,35 @@ async function seed() {
         }
       ],
 
-      // Embedding: os gêneros ficam em array dentro do filme
+      // EMBEDDING:
+      // Gêneros também ficam armazenados dentro do filme
       generos: [
         generos[index % generos.length].nome,
         generos[(index + 3) % generos.length].nome
       ],
 
-      // Referência: o filme referencia um diretor
+      // REFERÊNCIA:
+      // O filme referencia um documento da collection diretores
       diretorId: diretores[index % diretores.length]._id,
 
       criadoEm: new Date(),
       atualizadoEm: new Date()
     }));
 
+    // InsertMany: insere os 30 filmes/séries
     await db.collection("filmes").insertMany(filmes);
 
     const avaliacoes = [];
 
+    // Collection avaliacoes: 90 documentos
     for (let i = 0; i < 90; i++) {
       avaliacoes.push({
         _id: new ObjectId(),
+
+        // REFERÊNCIA:
+        // Cada avaliação referencia um filme pelo filmeId
         filmeId: filmes[i % filmes.length]._id,
+
         usuario: `usuario${i + 1}@email.com`,
         nota: Number((Math.random() * 4 + 6).toFixed(1)),
         comentario: "Avaliação gerada para teste do catálogo.",
@@ -108,8 +123,11 @@ async function seed() {
       });
     }
 
+    // InsertMany: insere avaliações em lote
     await db.collection("avaliacoes").insertMany(avaliacoes);
 
+    // ÍNDICES:
+    // Melhoram a performance das buscas e agregações
     await db.collection("filmes").createIndex({ titulo: 1 });
     await db.collection("filmes").createIndex({ anoLancamento: -1 });
     await db.collection("filmes").createIndex({ diretorId: 1 });

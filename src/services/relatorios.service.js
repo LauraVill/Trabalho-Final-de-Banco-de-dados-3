@@ -1,5 +1,7 @@
 const connectDB = require("../config/database");
 
+// Relatório 1: média das avaliações por filme
+// Atende Aggregation: $match, $group, $lookup, $project, $sort, $avg e $sum
 async function mediaAvaliacoesPorFilme() {
   const db = await connectDB();
 
@@ -39,6 +41,9 @@ async function mediaAvaliacoesPorFilme() {
     }
   ]).toArray();
 }
+
+// Relatório 2: quantidade de filmes por gênero
+// Usa $unwind para separar o array de gêneros e $group para agrupar
 async function quantidadeFilmesPorGenero() {
   const db = await connectDB();
 
@@ -55,7 +60,6 @@ async function quantidadeFilmesPorGenero() {
       $group: {
         _id: "$generos",
         totalFilmes: { $sum: 1 },
-
         filmes: {
           $push: "$titulo"
         }
@@ -77,6 +81,8 @@ async function quantidadeFilmesPorGenero() {
   ]).toArray();
 }
 
+// Relatório 3: filmes agrupados por diretor
+// Usa $lookup para juntar filmes com diretores
 async function filmesPorDiretor() {
   const db = await connectDB();
 
@@ -120,6 +126,8 @@ async function filmesPorDiretor() {
   ]).toArray();
 }
 
+// Relatório 4: top 5 filmes mais avaliados
+// Usa $count, $avg, $lookup, $sort e $limit
 async function top5MaisAvaliados() {
   const db = await connectDB();
 

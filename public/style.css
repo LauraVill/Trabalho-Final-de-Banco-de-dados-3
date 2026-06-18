@@ -1,3 +1,4 @@
+/* Configurações globais da página */
 * {
   margin: 0;
   padding: 0;
@@ -11,8 +12,7 @@ body {
   min-height: 100vh;
 }
 
-/* HEADER */
-
+/* Cabeçalho principal do sistema */
 .header {
   text-align: center;
   padding: 50px 20px 30px;
@@ -30,8 +30,7 @@ body {
   font-size: 16px;
 }
 
-/* MENU */
-
+/* Menu de navegação das consultas e relatórios */
 .menu {
   display: flex;
   justify-content: center;
@@ -53,30 +52,28 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Efeito ao passar o mouse sobre os botões */
 .menu button:hover {
   background: #c8a7a7;
   color: white;
   transform: translateY(-2px);
 }
 
-/* CONTAINER */
-
+/* Container principal da aplicação */
 .container {
   max-width: 1200px;
   margin: auto;
   padding: 30px;
 }
 
-/* GRID */
-
+/* Organização dos cards em formato responsivo */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 25px;
 }
 
-/* CARD */
-
+/* Card utilizado para exibir filmes e relatórios */
 .card {
   background: #ffffff;
   border-radius: 22px;
@@ -86,6 +83,7 @@ body {
   transition: 0.3s;
 }
 
+/* Efeito visual dos cards */
 .card:hover {
   transform: translateY(-4px);
 }
@@ -102,8 +100,7 @@ body {
   margin-bottom: 8px;
 }
 
-/* BADGE */
-
+/* Destaque utilizado para exibir os gêneros dos filmes */
 .badge {
   display: inline-block;
   margin-top: 15px;
@@ -114,8 +111,7 @@ body {
   font-size: 13px;
 }
 
-/* RELATÓRIOS */
-
+/* Formatação dos dados exibidos nos relatórios */
 .info-relatorio {
   margin-bottom: 12px;
   color: #555;
@@ -125,8 +121,7 @@ body {
   color: #6e5555;
 }
 
-/* LISTA */
-
+/* Lista utilizada para exibir filmes retornados pelas agregações */
 .lista-filmes {
   margin-top: 8px;
   margin-left: 20px;
@@ -137,8 +132,7 @@ body {
   color: #666;
 }
 
-/* CARD DE BOAS-VINDAS */
-
+/* Card exibido na tela inicial */
 .destaque {
   text-align: center;
   padding: 40px;
@@ -153,8 +147,7 @@ body {
   color: #7b7b7b;
 }
 
-/* FOOTER */
-
+/* Rodapé da aplicação */
 footer {
   text-align: center;
   padding: 35px;

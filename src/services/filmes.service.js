@@ -1,6 +1,14 @@
 const { ObjectId } = require("mongodb");
 const connectDB = require("../config/database");
 
+/*
+=========================================================
+SERVICE DE FILMES
+=========================================================
+Responsável por executar as operações no MongoDB.
+*/
+
+// CREATE - Insere um único filme
 async function criarFilme(dados) {
   const db = await connectDB();
 
@@ -8,9 +16,11 @@ async function criarFilme(dados) {
   dados.atualizadoEm = new Date();
 
   const resultado = await db.collection("filmes").insertOne(dados);
+
   return { _id: resultado.insertedId, ...dados };
 }
 
+// CREATE - Insere vários filmes em lote
 async function criarFilmesEmLote(lista) {
   const db = await connectDB();
 
@@ -21,9 +31,11 @@ async function criarFilmesEmLote(lista) {
   }));
 
   const resultado = await db.collection("filmes").insertMany(filmes);
+
   return resultado;
 }
 
+// READ - Lista filmes usando filtros e projeção de campos
 async function listarFilmes(filtros) {
   const db = await connectDB();
 
@@ -47,6 +59,7 @@ async function listarFilmes(filtros) {
     .toArray();
 }
 
+// READ - Busca um filme específico pelo ID
 async function buscarFilmePorId(id) {
   const db = await connectDB();
 
@@ -55,6 +68,7 @@ async function buscarFilmePorId(id) {
   });
 }
 
+// UPDATE - Atualização parcial com $set
 async function atualizarFilme(id, dados) {
   const db = await connectDB();
 
@@ -68,6 +82,7 @@ async function atualizarFilme(id, dados) {
   return await buscarFilmePorId(id);
 }
 
+// UPDATE - Atualiza array embutido usando $push
 async function adicionarPlataforma(id, plataforma) {
   const db = await connectDB();
 
@@ -86,6 +101,7 @@ async function adicionarPlataforma(id, plataforma) {
   return await buscarFilmePorId(id);
 }
 
+// DELETE - Remove um filme pelo ID
 async function deletarFilme(id) {
   const db = await connectDB();
 
@@ -94,6 +110,7 @@ async function deletarFilme(id) {
   });
 }
 
+// DELETE - Remove filmes usando filtro
 async function deletarPorFiltro(filtro) {
   const db = await connectDB();
 

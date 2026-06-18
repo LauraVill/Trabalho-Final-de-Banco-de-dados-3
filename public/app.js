@@ -1,5 +1,7 @@
+// Área onde os dados serão exibidos
 const resultado = document.getElementById("resultado");
 
+// Consome a rota GET /filmes (READ do CRUD)
 async function carregarFilmes() {
   resultado.innerHTML = "<p>Carregando filmes...</p>";
 
@@ -15,6 +17,8 @@ async function carregarFilmes() {
         <p><strong>Tipo:</strong> ${filme.tipo}</p>
         <p><strong>Ano:</strong> ${filme.anoLancamento}</p>
         <p><strong>Classificação:</strong> ${filme.classificacao || "Não informada"}</p>
+
+        <!-- Exibe os gêneros armazenados no documento (Embedding) -->
         <span class="badge">
           ${filme.generos ? filme.generos.join(", ") : "Sem gênero"}
         </span>
@@ -23,6 +27,7 @@ async function carregarFilmes() {
   });
 }
 
+// Consome os relatórios gerados pelas Aggregations do MongoDB
 async function carregarRelatorio(rota) {
   resultado.innerHTML = "<p>Carregando relatório...</p>";
 
@@ -49,13 +54,17 @@ async function carregarRelatorio(rota) {
   });
 }
 
+// Formata nomes dos campos para exibição
 function formatarChave(chave) {
   return chave
     .replace(/([A-Z])/g, " $1")
     .replace(/^./, (letra) => letra.toUpperCase());
 }
 
+// Formata os valores retornados pela API
 function formatarValor(valor) {
+
+  // Exibe arrays como lista HTML
   if (Array.isArray(valor)) {
     return `
       <ul class="lista-filmes">
