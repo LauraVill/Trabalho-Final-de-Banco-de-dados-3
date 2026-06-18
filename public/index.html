@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo de Filmes</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <h1>Catálogo de Filmes e Séries</h1>
+    <p>API REST com MongoDB, Node.js e Aggregation Framework</p>
+  </header>
+
+  <nav class="menu">
+    <button onclick="carregarFilmes()">Filmes</button>
+    <button onclick="carregarRelatorio('/relatorios/media-avaliacoes')">Média de Avaliações</button>
+    <button onclick="carregarRelatorio('/relatorios/filmes-por-genero')">Filmes por Gênero</button>
+    <button onclick="carregarRelatorio('/relatorios/filmes-por-diretor')">Filmes por Diretor</button>
+    <button onclick="carregarRelatorio('/relatorios/top5-avaliados')">Top 5 Avaliados</button>
+  </nav>
+
+  <main class="container">
+    <section id="resultado" class="cards">
+      <div class="card destaque">
+        <h2>Bem-vinda!</h2>
+        <p>Escolha uma opção acima para visualizar os dados do catálogo.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Trabalho Final de Banco de Dados 3
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

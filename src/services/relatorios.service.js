@@ -39,7 +39,6 @@ async function mediaAvaliacoesPorFilme() {
     }
   ]).toArray();
 }
-
 async function quantidadeFilmesPorGenero() {
   const db = await connectDB();
 
@@ -55,14 +54,19 @@ async function quantidadeFilmesPorGenero() {
     {
       $group: {
         _id: "$generos",
-        totalFilmes: { $sum: 1 }
+        totalFilmes: { $sum: 1 },
+
+        filmes: {
+          $push: "$titulo"
+        }
       }
     },
     {
       $project: {
         _id: 0,
         genero: "$_id",
-        totalFilmes: 1
+        totalFilmes: 1,
+        filmes: 1
       }
     },
     {
